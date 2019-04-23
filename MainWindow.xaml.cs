@@ -20,16 +20,68 @@ namespace u3Scrabble
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static int counter = 0;
+        public static List<string> strList = new List<string>();
         public MainWindow()
         {
             InitializeComponent();
-            ReWriteList rwl = new ReWriteList();
             ScrabbleGame sg = new ScrabbleGame();
-            rwl.newList();
-            FindWords fw = new FindWords();
-            FindWords.returnResults();
-           
-            
+            string letters = sg.drawInitialTiles().ToLower();
+            string letterSearched = "";
+            int n;
+            string currentWord;
+          
+            System.IO.StreamReader sr = new System.IO.StreamReader("Words.txt");
+            for (int i = 0; i < 7; i++)
+            {
+                letterSearched += letters[i];
+                n = letterSearched.Length;
+                permute(letterSearched, 0, n - 1);
+            }
+            MessageBox.Show(counter.ToString());
+            while (!sr.EndOfStream)
+            {
+                currentWord = sr.ReadLine();
+                foreach (string s in strList)
+                {
+                    if (currentWord == s)
+                        MessageBox.Show(currentWord);
+                }
+            }
+        }
+            private static void permute(String str,
+                                    int l, int r)
+            {
+                
+                if (l == r)
+                {
+                    strList.Add(str);
+                Console.WriteLine(str);
+                counter++;
+                }
+                else
+                {
+                    for (int i = l; i <= r; i++)
+                    {
+                        str = swap(str, l, i);
+                        permute(str, l + 1, r);
+                        str = swap(str, l, i);
+                    }
+                }
+            }
+
+
+            public static String swap(String a,
+                                      int i, int j)
+            {
+                char temp;
+                char[] charArray = a.ToCharArray();
+                temp = charArray[i];
+                charArray[i] = charArray[j];
+                charArray[j] = temp;
+                string s = new string(charArray);
+                return s;
+            }
         }
     }
-}
+

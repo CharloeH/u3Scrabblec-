@@ -21,67 +21,49 @@ namespace u3Scrabble
     public partial class MainWindow : Window
     {
         public static int counter = 0;
-        public static List<string> strList = new List<string>();
+        public static List<int> strList = new List<int>();
         public MainWindow()
         {
             InitializeComponent();
             ScrabbleGame sg = new ScrabbleGame();
-            string letters = sg.drawInitialTiles().ToLower();
-            string letterSearched = "";
-            int n;
-            string currentWord;
-          
+            char[] letters = sg.drawInitialTiles().ToLower().ToCharArray();
+            List<string> Letters = new List<string>();
+            
+            int i = 0;
+            foreach (char c in letters)
+            {
+                string temp = new string(c);
+                Letters.Add();
+            }
+            permute(strList);
+            
             System.IO.StreamReader sr = new System.IO.StreamReader("Words.txt");
-            for (int i = 0; i < 7; i++)
-            {
-                letterSearched += letters[i];
-                n = letterSearched.Length;
-                permute(letterSearched, 0, n - 1);
-            }
-            MessageBox.Show(counter.ToString());
-            while (!sr.EndOfStream)
-            {
-                currentWord = sr.ReadLine();
-                foreach (string s in strList)
-                {
-                    if (currentWord == s)
-                        MessageBox.Show(currentWord);
-                }
-            }
-        }
-            private static void permute(String str,
-                                    int l, int r)
-            {
+            
                 
-                if (l == r)
+        }
+      
+            private List<List<string>> permute(List<string> testValues)
+            {
+                List<List<string>> result = new List<List<string>>();
+
+            for (int count = 0; count < (1 << testValues.Count); ++count)
+            {
+                List<string> combinationList = new List<string>();
+
+                for (int i = 0; i < testValues.Count; ++i)
                 {
-                    strList.Add(str);
-                Console.WriteLine(str);
-                counter++;
-                }
-                else
-                {
-                    for (int i = l; i <= r; i++)
+                    if ((count & (1 << i)) == 0)
                     {
-                        str = swap(str, l, i);
-                        permute(str, l + 1, r);
-                        str = swap(str, l, i);
+                        combinationList.Add(testValues[i]);
                     }
                 }
+                result.Add(combinationList);
             }
-
-
-            public static String swap(String a,
-                                      int i, int j)
-            {
-                char temp;
-                char[] charArray = a.ToCharArray();
-                temp = charArray[i];
-                charArray[i] = charArray[j];
-                charArray[j] = temp;
-                string s = new string(charArray);
-                return s;
+            
+            
+                return result;
             }
         }
-    }
+        }
+    
 

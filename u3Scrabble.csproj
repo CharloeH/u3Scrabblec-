@@ -55,8 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="FindWords.cs" />
-    <Compile Include="ReWriteList.cs" />
     <Compile Include="ScabbleGame.cs" />
     <Compile Include="ScrabbleLetter.cs" />
     <Page Include="MainWindow.xaml">

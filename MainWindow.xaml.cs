@@ -1,4 +1,8 @@
-﻿using System;
+/* Sebastian Horton
+June 18th, 2019
+A program that finds all of the scrabble words given an input of random letters
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
